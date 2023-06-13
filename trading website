@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Asset List</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  <h1>Asset List</h1>
+  
+  <table id="assetTable">
+    <tr>
+      <th>Asset Name</th>
+      <th>Model Name</th>
+      <th>Price</th>
+    </tr>
+  </table>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $.ajax({
+        type: "GET",
+        url: "assets.csv", // CSV 파일 경로
+        dataType: "text",
+        success: function(data) {
+          const assetData = $.csv.toArrays(data); // CSV 데이터를 배열로 변환
+          let tableHtml = "";
+
+          for (let i = 0; i < assetData.length; i++) {
+            tableHtml += "<tr>";
+            tableHtml += "<td><a href='" + assetData[i][3] + "'>" + assetData[i][0] + "</a></td>";
+            tableHtml += "<td>" + assetData[i][1] + "</td>";
+            tableHtml += "<td>" + assetData[i][2] + "</td>";
+            tableHtml += "</tr>";
+          }
+
+          $("#assetTable").append(tableHtml); // 테이블에 동적으로 생성한 행 추가
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
